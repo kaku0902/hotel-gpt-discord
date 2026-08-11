@@ -1,0 +1,8 @@
+services:
+  hotel-gpt-discord:
+    build: .
+    container_name: hotel-gpt-discord
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
