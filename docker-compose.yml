@@ -1,8 +1,16 @@
 services:
   hotel-gpt-discord:
-    build: .
+    image: python:3.12-slim
     container_name: hotel-gpt-discord
     restart: unless-stopped
+
     environment:
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+    command: >
+      sh -c "
+      pip install --no-cache-dir discord.py openai &&
+      python -c \"import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/kaku0902/hotel-gpt-discord/main/bot.py','/tmp/bot.py')\" &&
+      python /tmp/bot.py
+      "
