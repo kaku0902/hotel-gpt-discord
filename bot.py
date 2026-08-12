@@ -45,11 +45,18 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    if not message.content.startswith("!gpt"):
-        return
+  content = message.content.strip()
 
-    prompt = message.content[len("!gpt"):].strip()
+if content.startswith("!gpt"):
+    prompt = content[len("!gpt"):].strip()
 
+elif bot.user in message.mentions:
+    prompt = content.replace(f"<@{bot.user.id}>", "")
+    prompt = prompt.replace(f"<@!{bot.user.id}>", "")
+    prompt = prompt.strip()
+
+else:
+    return
     if not prompt:
         await message.channel.send(
             "질문을 입력해주세요. 예: `!gpt 고객에게 체크아웃 시간을 안내해줘`"
